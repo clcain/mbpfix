@@ -1,0 +1,10 @@
+[Unit]
+Description=MacBook Pro Linux Fixes
+After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "setpci -v -H1 -s 00:01.00 BRIDGE_CONTROL=0; cat /sys/class/backlight/acpi_video0/actual_brightness > /sys/class/backlight/acpi_video0/brightness; grep \"XHC1.*disabled\" /proc/acpi/wakeup || echo XHC1 > /proc/acpi/wakeup"
+
+[Install]
+WantedBy=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target multi-user.target
